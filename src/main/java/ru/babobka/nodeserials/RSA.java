@@ -37,7 +37,7 @@ public class RSA implements Serializable {
 		this.publicKey = publicKey;
 	}
 
-	public BigInteger ecnrypt(String m) {
+	public BigInteger encrypt(String m) {
 		if (m != null) {
 			return encrypt(stringToBigInteger(m));
 		} else {

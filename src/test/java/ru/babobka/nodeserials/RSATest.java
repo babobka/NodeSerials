@@ -19,7 +19,7 @@ public class RSATest {
 			String message = generateRandomString();
 			BigInteger originalMessageInteger = RSA.stringToBigInteger(message);
 			RSA rsa = new RSA(keyBitLength);
-			BigInteger encryptedMessageInteger = rsa.ecnrypt(message);
+			BigInteger encryptedMessageInteger = rsa.encrypt(message);
 			BigInteger decryptedMessageInteger = rsa.decrypt(encryptedMessageInteger);
 			assertEquals(originalMessageInteger, decryptedMessageInteger);
 		}
