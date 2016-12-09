@@ -8,9 +8,9 @@ import org.junit.Test;
 
 public class RSATest {
 
-	private final int keyBitLength = 256;
+	private static final int keyBitLength = 256;
 
-	private final int tests = 100;
+	private static final int tests = 100;
 
 	@Test
 	public void stringEncryptionTest() {

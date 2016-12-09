@@ -3,6 +3,7 @@ package ru.babobka.nodeserials;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by dolgopolov.a on 08.07.15.
@@ -10,11 +11,11 @@ import java.util.Map;
 
 public final class NodeRequest implements Serializable {
 
-	private static final long serialVersionUID = 6L;
+	private static final long serialVersionUID = 7L;
 
-	private final long taskId;
+	private final UUID taskId;
 
-	private final long requestId;
+	private final UUID requestId;
 
 	private final boolean stoppingRequest;
 
@@ -22,11 +23,11 @@ public final class NodeRequest implements Serializable {
 
 	private final String taskName;
 
-	private final long time;
+	private final long timeStamp;
 
 	private final Map<String, Serializable> addition = new HashMap<>();
 
-	public NodeRequest(long taskId, long requestId, String taskName, Map<String, Serializable> addition,
+	public NodeRequest(UUID taskId, UUID requestId, String taskName, Map<String, Serializable> addition,
 			boolean stoppingRequest, boolean raceStyle) {
 		this.taskId = taskId;
 		this.requestId = requestId;
@@ -36,31 +37,35 @@ public final class NodeRequest implements Serializable {
 		}
 		this.stoppingRequest = stoppingRequest;
 		this.raceStyle = raceStyle;
-		this.time = System.currentTimeMillis();
+		this.timeStamp = System.currentTimeMillis();
 	}
 
-	public NodeRequest(long taskId, long requestId, boolean stoppingRequest, String taskName) {
+	public NodeRequest(UUID taskId, UUID requestId, boolean stoppingRequest, String taskName) {
 		this(taskId, requestId, taskName, null, stoppingRequest, false);
 
 	}
 
-	public NodeRequest(long taskId, boolean stoppingRequest, String taskName) {
-		this(taskId, (long) (Math.random() * Integer.MAX_VALUE), taskName, null, stoppingRequest, false);
+	public NodeRequest(UUID taskId, boolean stoppingRequest, String taskName) {
+		this(taskId, UUID.randomUUID(), taskName, null, stoppingRequest, false);
+	}
+
+
+	public String getStringAdditionValue(String key) {
+		Serializable value = addition.get(key);
+		if (value != null)
+			return value.toString();
+		return "";
 	}
 
 	public static NodeRequest heartBeatRequest() {
-		return new NodeRequest(0L, 0L, Mappings.HEART_BEAT_TASK_NAME, null, false, false);
+		return new NodeRequest(UUID.randomUUID(), UUID.randomUUID(), Mappings.HEART_BEAT_TASK_NAME, null, false, false);
 	}
 
-	public Map<String, Serializable> getAddition() {
-		return addition;
-	}
-
-	public long getTaskId() {
+	public UUID getTaskId() {
 		return taskId;
 	}
 
-	public long getRequestId() {
+	public UUID getRequestId() {
 		return requestId;
 	}
 
@@ -90,15 +95,19 @@ public final class NodeRequest implements Serializable {
 		return stoppingRequest;
 	}
 
-	public long getTime() {
-		return time;
+	public long getTimeStamp() {
+		return timeStamp;
+	}
+
+	public Map<String, Serializable> getAddition() {
+		return addition;
 	}
 
 	@Override
 	public String toString() {
 		return "NodeRequest [taskId=" + taskId + ", requestId=" + requestId + ", stoppingRequest=" + stoppingRequest
-				+ ", raceStyle=" + raceStyle + ", taskName=" + taskName + ", time=" + time + ", addition=" + addition
-				+ "]";
+				+ ", raceStyle=" + raceStyle + ", taskName=" + taskName + ", timeStamp=" + timeStamp + ", addition="
+				+ addition + "]";
 	}
 
 }

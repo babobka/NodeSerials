@@ -73,4 +73,8 @@ public class RSA implements Serializable {
 		return publicKey;
 	}
 
+	public static void main(String[] args) {
+		
+	}
+
 }
